@@ -22,7 +22,7 @@ import UserListScreen from './screens/UserListScreen';
 import UserEditScreen from './screens/UserEditScreen';
 import SearchScreen from './screens/SearchScreen';
 import ForgotPasswordScreen from './screens/ForgotPasswordScreen';
-import ResetPasswordScreen from '.screens/ResetPasswordScreen' ;
+import ResetPasswordScreen from './screens/ResetPasswordScreen' ;
 
 function App() {
   return (

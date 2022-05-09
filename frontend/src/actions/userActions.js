@@ -1,4 +1,5 @@
 import Axios from 'axios';
+import { useState } from 'react';
 import {
   USER_DELETE_FAIL,
   USER_DELETE_REQUEST,
@@ -193,38 +194,45 @@ export const forgotPassword = (email) => async (dispatch) => {
     });
   }
 };
-export const resetPassword = (props) => async (dispatch) => {
- dispatch({ type: USER_RESETPASSWORD_REQUEST});
- try {
-  const { data } = await Axios.get('/api/users/forgot-password/reset-password', 
- {params: {resetPasswordToken: props.match.params.token,}});
-dispatch({ type: USER_RESETPASSWORD_SUCCESS, payload: data });
-  
- } catch (error) {
-  dispatch({
-    type: USER_RESETPASSWORD_FAIL,
-   payload:
-    error.response && error.response.data.message
-      ? error.response.data.message
-         : error.message,
-           });
- }
- };
- export const updatePassword = (id) => async (dispatch) => {
-  dispatch({ type: USER_UPDATEPASS_REQUEST, payload: {id} });
+
+const resetPassword = (props) => async (dispatch) => {
+  dispatch({ type: USER_RESETPASSWORD_REQUEST });
   try {
-   const { data } = await Axios.put('/api/users/forgot-password/update-password', 
-  {params: {resetPasswordToken: props.match.params.token,}});
- dispatch({ type: USER_UPDATEPASS_SUCCESS, payload: data });
-   
+    const { data } = await Axios.get('/api/users/forgot-password/reset-password',
+      { params: { resetPasswordToken: props.match.params.token, } });
+    dispatch({ type: USER_RESETPASSWORD_SUCCESS, payload: data });
+    setData(data);
+    setId(data._id);
   } catch (error) {
-   dispatch({
-     type: USER_UPDATEPASS_FAIL,
-    payload:
-     error.response && error.response.data.message
-       ? error.response.data.message
+    dispatch({
+      type: USER_RESETPASSWORD_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
           : error.message,
-            });
+    });
   }
 };
- 
+
+const [data, setData] = useState(undefined);
+const [id, setId] = useState(undefined);
+
+export const updatePassword = (id, data) => async (dispatch) => {
+  if (data !== undefined) {
+    dispatch({ type: USER_UPDATEPASS_REQUEST, payload: { id, data } });
+    try {
+      const { data } = await Axios.put('/api/users/forgot-password/update-password',
+      );
+      dispatch({ type: USER_UPDATEPASS_SUCCESS, payload: data });
+    } catch (error) {
+      dispatch({
+        type: USER_UPDATEPASS_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
+  }
+};
+

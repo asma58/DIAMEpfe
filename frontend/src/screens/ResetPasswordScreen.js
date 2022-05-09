@@ -1,94 +1,80 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import { useEffect } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { resetPassword,updatePassword} from '../actions/userActions';
+import { useNavigate } from 'react-router-dom';
+import { updatePassword } from '../actions/userActions';
 import LoadingBox from '../componnent/LoadingBox';
 import MessageBox from '../componnent/MessageBox';
-
-
-
+import { USER_UPDATE_RESET } from '../constants/userconstants';
 
 export default function ResetPasswordScreen(props) {
-  const params = useParams();
-  const { id: resetPasswordId } = params
-  const navigate = useNavigate();
-  const [data , setData] = useState('');
-  const [password, confirm_password] = useState('');
-  const [id, setId] = useState('');
-  const forgotPassword = useSelector((state) => state.forgotPassword);
-  const { loading, error, passwordupdate } = forgotPassword;
+    // const navigate = useNavigate();
 
-  
-  
+    // const [password, setPassword] = useState('');
+    // const [id, setId] = useState('')
+    // const userDetails = useSelector((state) => state.userDetails);
+    // const { loading, error, user } = userDetails;
 
-  const { search } = useLocation();
-  const redirectInUrl = new URLSearchParams(search).get('redirect');
-  const redirect = redirectInUrl ? redirectInUrl : '/';
+    // const updatePassword = useSelector((state) => state.updatePassword);
+    // const {
+    //     loading: loadingUpdate,
+    //     error: errorUpdate,
+    //     success: successUpdate,
+    // } = updatePassword;
 
-  
+    // const dispatch = useDispatch();
+    // useEffect(() => {
+    //     if (successUpdate) {
+    //         dispatch({ type: USER_UPDATE_RESET });
+    //         navigate('/userlist');
+    //     }
+    //     else {
+    //         setPassword(user.password);
+    //     }
+    // }, [dispatch, navigate, successUpdate, user]);
 
-  const dispatch = useDispatch();
-  const submitHandler = (e) => {
-    e.preventDefault();
-    dispatch(resetPassword(password));
-  };
-  useEffect(() => {
-    if (userInfo) {
-      navigate(redirect);
-    }
-  }, [navigate, redirect, userInfo]);
-
-
-  return (
-    <div>
-      <form className="form" onSubmit={submitHandler}>
+    // const submitHandler = (e) => {
+    //     e.preventDefault();
+    //     // dispatch update user
+    //     dispatch(updatePassword({ id: id, password: password }));
+    // };
+    return (
         <div>
-          <h1>Nouveau mot de passe </h1>
-        </div>
-        {loading && <LoadingBox></LoadingBox>}
-        {error && <MessageBox variant="danger">{error}</MessageBox>}
-        <div>
-          <label htmlFor="password">nouveau mot de passe</label>
-          <input
-            type="password"
-            id="password"
-            placeholder="Entrer votre mot de passe"
-            required
-            onChange={(e) => setPassword(e.target.value)}
-          ></input>
-        </div>
-        <div>
-          <label />
-          <button className="primary" type="submit">
-            Sign In
-          </button>
-        </div>
-        <div>
-          <label htmlFor="confirmPassword"> confirmer mot de passe</label>
-          <input
-            type="password"
-            id="confirmPassword"
-            placeholder="Enter confirm password"
-            required
-            onChange={(e) => confirm_password(e.target.value)}
-          ></input>
-        </div>
-        <div>
-          <label />
-          <button className="primary" type="submit">
-            connexion
-          </button>
-        </div>
-        <div>
-          <label />
-          <div>
-            Mot de passe oublié ?{' '}
-            <Link to={`/forgot-password?redirect=${redirect}`}><button className='primary' >Réinialiser </button>
-
-            </Link>
+        <form className="form" >
+          {/* <div> */}
+            <h1>Edit User</h1>
+            {/* {loadingUpdate && <LoadingBox></LoadingBox>}
+            {errorUpdate && (
+              <MessageBox variant="danger">{errorUpdate}</MessageBox>
+            )}
           </div>
-        </div>
-      </form>
-    </div>
-  );
+          {loading ? (
+            <LoadingBox />
+          ) : error ? (
+            <MessageBox variant="danger">{error}</MessageBox>
+          ) : ( */}
+            <>
+              
+              <div>
+                <label htmlFor="password">Pasqword</label>
+                <input
+                  id="password"
+                  type="password"
+                //   placeholder="Enter password"
+                //   value={password}
+                //   onChange={(e) => setPassword(e.target.value)}
+                ></input>
+              </div>
+             
+              <div>
+                <button type="submit" className="primary">
+                  Update
+                </button>
+              </div>
+            </>
+          {/* )} */}
+        </form>
+      </div>
+    );
 }
